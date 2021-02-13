@@ -33,8 +33,7 @@
   "jsonrpc": "2.0",
   "method": "stand.move_knife",
   "params": {
-    "direction": "x",
-    "value": 5
+    "direction": "x"
   }
 }
 ```
