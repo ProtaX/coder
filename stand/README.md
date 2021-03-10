@@ -12,6 +12,7 @@
   "method": "stand.move_knife",
   "params": {
     "direction": <string>,
+    "positive": true,
   }
 }
 ```
