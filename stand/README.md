@@ -12,6 +12,7 @@
   "method": "stand.move_knife",
   "params": {
     "direction": <string>,
+    "positive": <boolead>,
   }
 }
 ```
@@ -38,3 +39,9 @@
 }
 ```
 Где x, y, z - новые координаты ножа.
+
+# API:
+## Двигать по X (по Y и Z аналогично):
+ curl --data '{"method": "stand.move_knife","params": {"direction": "x","positive": true}}' -H "Content-Type: application/json" -X POST http://localhost:8080/command
+## Не двигать: 
+url --data '{"method": "stand.stop_knife","params": {}' -H "Content-Type: application/json" -X POST http://localhost:8080/command
