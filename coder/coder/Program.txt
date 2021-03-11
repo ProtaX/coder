@@ -1,0 +1,4 @@
+﻿SET X 4
+SET X 8
+SET Y 3
+SET Z 4
