@@ -18,7 +18,6 @@ public class StandController {
 
     @Autowired
     StandService standService;
-    
     // курл для терминала
     // curl --data
     // '{"method": "stand.move_knife","params": {"direction": "x","positive": true}}'
