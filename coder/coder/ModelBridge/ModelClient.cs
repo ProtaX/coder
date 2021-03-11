@@ -2,6 +2,9 @@
 using StreamJsonRpc;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.Http;
+using System.Collections.Generic;
+using System.IO;
 
 namespace coder.ModelBridge
 {
@@ -18,13 +21,13 @@ namespace coder.ModelBridge
 
         public void SendMove(string axis, bool pos)
         {
-            var t = jsonRpc.InvokeAsync("stand.move_knife", axis, pos);
+            var t = jsonRpc.InvokeAsync("move_knife", axis, pos);
             t.Wait();
         }
 
         public void SendStop()
         {
-            var t = jsonRpc.InvokeAsync("stand.stop_knife");
+            var t = jsonRpc.InvokeAsync("stop_knife");
             t.Wait();
         }
 
@@ -34,6 +37,7 @@ namespace coder.ModelBridge
             skt.Close();
         }
 
+        private string url;
         private JsonRpc jsonRpc;
         private NetworkStream s;
         private Socket skt;
