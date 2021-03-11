@@ -40,8 +40,18 @@
 ```
 Где x, y, z - новые координаты ножа.
 
-# API:
+# API (json-rpc):
+curl --data '{"method": "stop_knife","params": {}}' -H "Content-Type: application/json" -X POST localhost:8080/StandServiceRPC.json
+
+curl --data '{"method": "move_knife","params": {"direction": "y"}}' -H "Content-Type: application/json" -X POST localhost:8080/StandServiceRPC.json
+curl --data '{"method": "move_knife","params": {"direction": "x"}}' -H "Content-Type: application/json" -X POST localhost:8080/StandServiceRPC.json
+curl --data '{"method": "move_knife","params": {"direction": "z"}}' -H "Content-Type: application/json" -X POST localhost:8080/StandServiceRPC.json
+
+# API http:
 ## Двигать по X (по Y и Z аналогично):
  curl --data '{"method": "stand.move_knife","params": {"direction": "x","positive": true}}' -H "Content-Type: application/json" -X POST http://localhost:8080/command
 ## Не двигать: 
 url --data '{"method": "stand.stop_knife","params": {}' -H "Content-Type: application/json" -X POST http://localhost:8080/command
+
+
+
