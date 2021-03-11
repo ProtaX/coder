@@ -28,6 +28,19 @@ public class Stand extends Thread {
     public Stand() {
     }
 
+    public void stopCommand() {
+        if (!this.isAlive() && !this.isInterrupted()) this.start();
+        currentCommand = "stand.stop_knife";
+    }
+
+    public void goCommand(String direction) {
+        if (!this.isAlive() && !this.isInterrupted()) this.start();
+        currentCommand = "stand.move_knife";
+        currentDircetion = direction.toLowerCase();
+        currentIncrement = 3;
+        if (direction.toLowerCase().equals("z")) currentIncrement *= -1;
+    }
+
     // Изменение текущей команды
     public void handleCommand(KnifeCommand command) {
         if (!this.isAlive() && !this.isInterrupted()) this.start();
@@ -38,8 +51,6 @@ public class Stand extends Thread {
             currentCommand = command.method;
             currentDircetion = command.params.direction.toLowerCase();
             currentIncrement = command.params.isPositive()? 3 : -3 ;
-
-
         }
 
         if (command.method.equals("display.set_knife_position")) {
