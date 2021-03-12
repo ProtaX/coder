@@ -24,9 +24,9 @@ namespace display
     /// </summary>
     public partial class MainWindow : Window
     {
-        public int knifeCurX = 0;
-        public int knifeCurY = 0;
-        public int knifeCurZ = 0;
+        public int knifeCurX = 3;
+        public int knifeCurY = 1;
+        public int knifeCurZ = 1;
 
         public MainWindow()
         {
@@ -38,14 +38,14 @@ namespace display
         {
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
                 NetworkStream s = new NetworkStream(skt);
                 var jsonrpc = JsonRpc.Attach(s);
 
-                var t =  jsonrpc.InvokeAsync("coder.press_key", "YMAX");
+                var t =  jsonrpc.InvokeAsync("coder.press_key", "start");
                 t.Wait();
 
                 skt.Close();
@@ -73,8 +73,6 @@ namespace display
                     (x, y, z) => {
                         Console.WriteLine("Received = " + x + ", " + y + ", " + z);
                         MoveKnife(x, y, z);
-                        
-
                         return;
                     }
                 ));
@@ -87,37 +85,36 @@ namespace display
         {
             this.Dispatcher.Invoke(() =>
             {
-                const int pxPerUnit = 2;
+                const int pxPerX = 15;
+                const int pxPerY = 5;
+                const int pxPerZ = 15;
 
                 knife_from_side.RenderTransform = new TranslateTransform(
-                    (newX - knifeCurX) * pxPerUnit,
-                    (newZ - knifeCurZ) * pxPerUnit
+                    (newX - knifeCurX) * pxPerX,
+                    (newZ - knifeCurZ) * pxPerZ
                 );
                 knife_from_top.RenderTransform = new TranslateTransform(
-                    (newX - knifeCurX) * pxPerUnit,
-                    (newY - knifeCurY) * pxPerUnit
+                    (newX - knifeCurX) * pxPerX,
+                    (newY - knifeCurY) * pxPerY
                 );
 
                 myGrid.InvalidateVisual();
-
             });
-            //knife.RenderTransform.Value.Translate(newX, newY);
         }
 
         private void Button_Click_2(object sender, RoutedEventArgs e)
         {
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
                 NetworkStream s = new NetworkStream(skt);
                 var jsonrpc = JsonRpc.Attach(s);
 
-                var t = jsonrpc.InvokeAsync("coder.press_key", "Manual");
+                var t = jsonrpc.InvokeAsync("coder.press_key", "manual_mode");
                 t.Wait();
-
                 skt.Close();
             }
             catch (Exception ex)
@@ -131,14 +128,13 @@ namespace display
         {
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
                 NetworkStream s = new NetworkStream(skt);
                 var jsonrpc = JsonRpc.Attach(s);
-
-                var t = jsonrpc.InvokeAsync("coder.press_key", "Auto");
+                var t = jsonrpc.InvokeAsync("coder.press_key", "auto_mode");
                 t.Wait();
 
                 skt.Close();
@@ -155,16 +151,15 @@ namespace display
         {
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
                 NetworkStream s = new NetworkStream(skt);
                 var jsonrpc = JsonRpc.Attach(s);
 
-                var t = jsonrpc.InvokeAsync("coder.press_key", "Step");
+                var t = jsonrpc.InvokeAsync("coder.press_key", "step");
                 t.Wait();
-
                 skt.Close();
             }
             catch (Exception ex)
@@ -179,16 +174,15 @@ namespace display
         {
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
                 NetworkStream s = new NetworkStream(skt);
                 var jsonrpc = JsonRpc.Attach(s);
 
-                var t = jsonrpc.InvokeAsync("coder.press_key", "Stop");
+                var t = jsonrpc.InvokeAsync("coder.press_key", "stop");
                 t.Wait();
-
                 skt.Close();
             }
             catch (Exception ex)
@@ -203,14 +197,14 @@ namespace display
         {
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
                 NetworkStream s = new NetworkStream(skt);
                 var jsonrpc = JsonRpc.Attach(s);
 
-                var t = jsonrpc.InvokeAsync("coder.press_key", "End");
+                var t = jsonrpc.InvokeAsync("coder.press_key", "end");
                 t.Wait();
                 skt.Close();
             }
@@ -226,7 +220,7 @@ namespace display
         {
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
@@ -234,7 +228,6 @@ namespace display
                 var jsonrpc = JsonRpc.Attach(s);
 
                 var t = jsonrpc.InvokeAsync("coder.set_parameter", "XMAX", XMAX.Text);
-                t.Wait();
                 skt.Close();
             }
             catch (Exception ex)
@@ -249,7 +242,7 @@ namespace display
           
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
@@ -273,7 +266,7 @@ namespace display
 
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 
@@ -297,7 +290,7 @@ namespace display
 
             try
             {
-                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("192.168.0.100"), 6666);
+                IPEndPoint ip = new IPEndPoint(IPAddress.Parse("127.0.0.1"), 6666);
                 Socket skt = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 skt.Connect(ip);
 

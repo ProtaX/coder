@@ -30,7 +30,7 @@ namespace coder
 
             Console.WriteLine("Press any key to connect to stand...");
             Console.ReadKey();
-            var modelClient = new ModelClient("192.168.1.126", 8080);
+            var modelClient = new ModelClient("127.0.0.1", 5555);
             var instHandler = new InstructionHandler();
             instHandler.SendMove += modelClient.SendMove;
             instHandler.SendStop += modelClient.SendStop;

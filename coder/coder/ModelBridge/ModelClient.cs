@@ -21,13 +21,13 @@ namespace coder.ModelBridge
 
         public void SendMove(string axis, bool pos)
         {
-            var t = jsonRpc.InvokeAsync("move_knife", axis, pos);
+            var t = jsonRpc.InvokeAsync("stand.move_knife", axis, pos);
             t.Wait();
         }
 
         public void SendStop()
         {
-            var t = jsonRpc.InvokeAsync("stop_knife");
+            var t = jsonRpc.InvokeAsync("stand.stop_knife");
             t.Wait();
         }
 

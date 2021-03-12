@@ -21,7 +21,7 @@ namespace stand
 
         public void SendCoords(int x, int y, int z)
         {
-            var t = jsonRpc.InvokeAsync("set_knife_position", x, y, z);
+            var t = jsonRpc.InvokeAsync("display.set_knife_position", x, y, z);
             t.Wait();
         }
 

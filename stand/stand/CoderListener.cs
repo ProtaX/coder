@@ -3,8 +3,6 @@ using StreamJsonRpc;
 using System.Net;
 using System.Net.Sockets;
 
-using StreamJsonRpc;
-
 namespace stand
 {
     class CoderListener
@@ -27,17 +25,20 @@ namespace stand
 
         public void Accept(object accepter)
         {
-            try
+            while (true)
             {
-                var client = listener.Accept();
-                Console.WriteLine("Client accepted");
-                clientStream = new NetworkStream(client);
-                jsonrpc = JsonRpc.Attach(clientStream, accepter);
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Cannot accept connection from Coder: " + ex.Message);
-                Environment.Exit(-1);
+                try
+                {
+                    var client = listener.Accept();
+                    Console.WriteLine("Client accepted");
+                    clientStream = new NetworkStream(client);
+                    jsonrpc = JsonRpc.Attach(clientStream, accepter);
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("Cannot accept connection from Coder: " + ex.Message);
+                    Environment.Exit(-1);
+                }
             }
         }
 
