@@ -1,7 +1,7 @@
 # stand
 Объект управления - строгальный станок. Нож станка может перемещаться в плоскости XY, а также выдвигаться вдоль оси Z.
 ## Работа станка
-В качестве "заготовки" для станка используется изображение. В местах, где нож станка прошел по заготовке, изображение должно меняться в зависимости от глубины прореза. Например, может меняться прозрачность от 0 до 255.
+В качестве "заготовки" для станка используется изображение. В местах, где нож станка прошел по заготовке, изображение должно меняться в зависимости от глубины прореза. Например, может меняться прозрачность от 0 до 255. Сейчас данная возможность не реализована.
 
 ## Управление станком с программатора
 Управление осуществляется через управляющие коды. Код содержит информацию, в каком направлении необходимо двигаться ножу.
@@ -12,7 +12,7 @@
   "method": "stand.move_knife",
   "params": {
     "direction": <string>,
-    "positive": <boolead>,
+    "positive": <boolean>,
   }
 }
 ```
@@ -39,19 +39,3 @@
 }
 ```
 Где x, y, z - новые координаты ножа.
-
-# API (json-rpc):
-curl --data '{"method": "stop_knife","params": {}}' -H "Content-Type: application/json" -X POST localhost:8080/StandServiceRPC.json
-
-curl --data '{"method": "move_knife","params": {"direction": "y"}}' -H "Content-Type: application/json" -X POST localhost:8080/StandServiceRPC.json
-curl --data '{"method": "move_knife","params": {"direction": "x"}}' -H "Content-Type: application/json" -X POST localhost:8080/StandServiceRPC.json
-curl --data '{"method": "move_knife","params": {"direction": "z"}}' -H "Content-Type: application/json" -X POST localhost:8080/StandServiceRPC.json
-
-# API http:
-## Двигать по X (по Y и Z аналогично):
- curl --data '{"method": "stand.move_knife","params": {"direction": "x","positive": true}}' -H "Content-Type: application/json" -X POST http://localhost:8080/command
-## Не двигать: 
-url --data '{"method": "stand.stop_knife","params": {}' -H "Content-Type: application/json" -X POST http://localhost:8080/command
-
-
-

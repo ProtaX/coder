@@ -6,7 +6,7 @@
 ```
 SET <AXIS> <VALUE>
 ```
-* Цикл по `I` от `START` до `END`
+* Цикл по `I` от `START` до `END`. Сейчас не реализован.
 ```
 FOR <I> FROM <START> TO <END>
   ...
