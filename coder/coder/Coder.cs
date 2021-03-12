@@ -81,6 +81,14 @@ namespace coder
                     PC = 0;
                     curTask = Task.Run(ExecuteProgram);
                     break;
+                case "step":
+                    if (curTask != null && !curTask.IsCompleted)
+                    {
+                        curTask.Wait();
+                    }
+                    State = CoderState.WORKING;
+                    curTask = Task.Run(ExecuteProgram);
+                    break;
                 case "stop":
                     State = CoderState.DONE;
                     PC = 0;
@@ -152,18 +160,21 @@ namespace coder
             int secPerUnit = Parameters["TZAD"]; // 1 by default
             int sec = Math.Abs(value - cur) / secPerUnit;
             
+            handler.Move(axis, pos);
+            Console.WriteLine("Calling move on " + axis + ", dir: " + pos);
             for (int i = 0; i < sec; ++i)
             {
+                Console.WriteLine("Waiting on " + axis + ", dir: " + pos);
                 int newValue = (pos) ? ++cur : --cur;
                 if (IsOutOfBounds(axis, newValue))
                 {
                     Console.WriteLine("Warning: out of bound on " + axis + " axis, not doing that");
                     break;
                 }
-                handler.Move(axis, pos);
                 Parameters[axis] = newValue;
-                Thread.Sleep(secPerUnit/* * 1000*/);
+                Thread.Sleep(secPerUnit * 1000);
             }
+            Console.WriteLine("Calling stop");
             handler.Stop();
         }
 
@@ -206,7 +217,7 @@ namespace coder
         {
             if (mode == SettingMode.MANUAL)
             {
-                ExecuteLine(ProgramCode[PC]);
+                ExecuteLine(ProgramCode[PC++]);
                 State = CoderState.IDLE;
                 return;
             }
@@ -215,6 +226,8 @@ namespace coder
             {
                 ExecuteLine(l);
             }
+
+            State = CoderState.DONE;
         }
 
         private Task curTask;

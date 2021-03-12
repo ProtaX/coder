@@ -2,6 +2,9 @@
 using StreamJsonRpc;
 using System.Net;
 using System.Net.Sockets;
+using System.Net.Http;
+using System.Collections.Generic;
+using System.IO;
 
 namespace coder.ModelBridge
 {
@@ -34,6 +37,7 @@ namespace coder.ModelBridge
             skt.Close();
         }
 
+        private string url;
         private JsonRpc jsonRpc;
         private NetworkStream s;
         private Socket skt;
